@@ -31,13 +31,13 @@ mdobj = i3le.o
 include Mf-base
 
 ${Kernel}: ${kernelobj} ${zlibDep} ${LZ4Dep}
-	ld -melf_x86_64 -r -X -o ${Kernel} ${kernelobj} ${zlibLib} ${LZ4Lib}
+	$CC ${LDFLAGS} -Wl,-melf_x86_64 -Wl,-r -Wl,-X -o ${Kernel} ${kernelobj} ${zlibLib} ${LZ4Lib}
 
 ${Scheme}: ${Kernel} ${Main}
 	$C -rdynamic -o ${Scheme} ${Kernel} ${Main} ${mdclib} ${LDFLAGS}
 
 ../zlib/configure.log:
-	(cd ../zlib; CFLAGS="${CFLAGS} -m64" ./configure --64)
+	(cd ../zlib; CFLAGS="${CFLAGS} -m64" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" CC="${CC}" ./configure --64)
 
 ../lz4/lib/liblz4.a: ${LZ4Sources}
-	(cd ../lz4/lib; CFLAGS="${CFLAGS} -m64" ${MAKE} liblz4.a)
+	(cd ../lz4/lib; CFLAGS="${CFLAGS} -m64" CPPFLAGS="${CPPFLAGS}" LDFLAGS="${LDFLAGS}" CC="${CC}" ${MAKE} liblz4.a)
