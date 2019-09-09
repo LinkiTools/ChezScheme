@@ -32,7 +32,13 @@ KernelLib=../boot/$m/libkernel.a
 KernelLibLinkDeps=${zlibDep} ${LZ4Dep}
 KernelLibLinkLibs=${zlibLib} ${LZ4Lib}
 
-kernelsrc=statics.c segment.c alloc.c symbol.c intern.c gcwrapper.c gc-ocd.c gc-oce.c\
+ifeq ($(OmegaGC),yes)
+     GCFiles=omega-alloc.c omega-gc.c
+else
+     GCFiles=alloc.c gcwrapper.c gc-ocd.c gc-oce.c
+endif
+
+kernelsrc=statics.c segment.c symbol.c intern.c $(GCFiles)\
  number.c schsig.c io.c new-io.c print.c fasl.c stats.c foreign.c prim.c prim5.c flushcache.c\
  schlib.c thread.c expeditor.c scheme.c compress-io.c
 

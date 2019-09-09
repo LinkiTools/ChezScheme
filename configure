@@ -25,6 +25,7 @@ machs=$machs$sep2$last
 
 m=""
 w=""
+omegagc=no
 threads=no
 temproot=""
 help=no
@@ -172,6 +173,9 @@ while [ $# != 0 ] ; do
     --machine=*)
       m=`echo $1 | sed -e 's/^--machine=//'`
       ;;
+    --omegagc)
+      omegagc=yes
+      ;;
     --threads)
       threads=yes
       ;;
@@ -312,6 +316,10 @@ fi
 
 if [ "$threads" = "" ] ; then
   threads=no
+fi
+
+if [ "$omegagc" = "" ] ; then
+    omegagc=no
 fi
 
 if [ "$m" = "" ] ; then
@@ -518,4 +526,5 @@ LZ4HeaderDep=$LZ4HeaderDep
 Kernel=\${${Kernel}}
 KernelLinkDeps=\${${Kernel}LinkDeps}
 KernelLinkLibs=\${${Kernel}LinkLibs}
+OmegaGC=$omegagc
 END
